@@ -1,5 +1,5 @@
 
-import tabuleiro from "./tabuleiro.js"
+import Tabuleiro from "./Tabuleiro.js"
 
 const body = document.body
 const container = document.createElement("div")
@@ -26,15 +26,17 @@ for (let i = 0; i < 8; i++) {
   for (let j = 0; j < 8; j++) {
     const idCelula = i.toString() + j.toString()
     const celula = document.getElementById(idCelula)
-    const peca = tabuleiro[i][j]
-    if (peca.tipo === 0) continue
+    const tipoDaPeca = Tabuleiro.tipoDaPeca([i, j])
+    const casaVazia = tipoDaPeca === 0
+    const corDaPeca = Tabuleiro.corDaPeca([i, j])
+    if (casaVazia) continue
     const img = document.createElement("img")
     img.className = "img"
     let caminho = "./pecas/"
-    const ehBranca = peca.cor === 1
+    const ehBranca = corDaPeca === 1
     if (ehBranca) caminho = caminho + "b"
     else caminho = caminho + "p"
-    switch(peca.tipo){
+    switch(tipoDaPeca){
       case 1 :
            caminho = caminho + "Peao.png"
            break
