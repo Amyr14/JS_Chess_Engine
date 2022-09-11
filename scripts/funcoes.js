@@ -7,6 +7,7 @@ function isArrayInArray(arr, item) {
   return contains
 }
 
+
 function movEixoDiag(posInicial, tabuleiro, tipo) {
   const x = posInicial[0]
   const y = posInicial[1]
@@ -72,10 +73,10 @@ function movEixoDiag(posInicial, tabuleiro, tipo) {
     const movimentos = []
     const branca = cor === 1
     if (branca) {
-      const cima = tabuleiro[x + 1][y]
-      const diagDir = tabuleiro[x + 1][y + 1]
-      const diagEsq = tabuleiro[x + 1][y - 1]
-      const doisPassos = tabuleiro[x + 2][y]
+      const cima = tabuleiro[x + 1]?.[y]
+      const diagDir = tabuleiro[x + 1]?.[y + 1]
+      const diagEsq = tabuleiro[x + 1]?.[y - 1]
+      const doisPassos = tabuleiro[x + 2]?.[y]
       if (diagDir !== undefined && diagDir.cor === 2)
         movimentos.push([x + 1, y + 1])
       if (diagEsq !== undefined && diagEsq.cor === 2)
@@ -86,10 +87,10 @@ function movEixoDiag(posInicial, tabuleiro, tipo) {
           movimentos.push([x + 2, y])
       }
     } else {
-      const cima = tabuleiro[x - 1][y]
-      const diagDir = tabuleiro[x - 1][y + 1]
-      const diagEsq = tabuleiro[x - 1][y - 1]
-      const doisPassos = tabuleiro[x - 2][y]
+      const cima = tabuleiro[x - 1]?.[y]
+      const diagDir = tabuleiro[x - 1]?.[y + 1]
+      const diagEsq = tabuleiro[x - 1]?.[y - 1]
+      const doisPassos = tabuleiro[x - 2]?.[y]
       if (diagDir !== undefined && diagDir.cor === 1)
         movimentos.push([x - 1, y + 1])
       if (diagEsq !== undefined && diagEsq.cor === 1)
@@ -118,8 +119,8 @@ function movEixoDiag(posInicial, tabuleiro, tipo) {
       direita = y - 1
     }
     const diagonais = []
-    if (tabuleiro[cima][direita] !== undefined) diagonais.push([cima, direita])
-    if (tabuleiro[cima][esquerda] !== undefined) diagonais.push([cima, esquerda]) 
+    if (tabuleiro[cima]?.[direita] !== undefined) diagonais.push([cima, direita])
+    if (tabuleiro[cima]?.[esquerda] !== undefined) diagonais.push([cima, esquerda]) 
     return diagonais
   }
 
@@ -189,13 +190,13 @@ function movimentosCavalo(posInicial, tabuleiro) {
         (branca && brancaNaPos) ||
         (preta && pretaNaPos)
       )
-      const ehPosValida = dentroDoTabuleiro && naoPecaDaMesmaCor
-      return ehPosValida
+      const posValida = dentroDoTabuleiro && naoPecaDaMesmaCor
+      return posValida
     })
     return movimentos
   }
 
-  function movimentosRei(posInicial, tabuleiro, zonaDePerigo) {
+  function movimentosRei( posInicial, tabuleiro ) {
     const x = posInicial[0]
     const y = posInicial[1]
     const cor = tabuleiro[x][y].cor
@@ -221,11 +222,43 @@ function movimentosCavalo(posInicial, tabuleiro) {
         (branca && brancaNaPos) ||
         (preta && pretaNaPos)
       )
-      const naoEhZonaDePerigo = !isArrayInArray(zonaDePerigo, elem)
-      const ehPosValida = dentroDoTabuleiro && naoPecaDaMesmaCor && naoEhZonaDePerigo
-      return ehPosValida
+      const posValida = dentroDoTabuleiro && naoPecaDaMesmaCor
+      return posValida
     })
     return movimentos
+  }
+
+  function zonaDePerigo(cor, tabuleiro) {
+    const brancas = cor === 1
+    const adv = brancas ? 2 : 1
+    const zonaDePerigo = []
+    for (let i = 0; i < 8; i++)
+      for (let j = 0; j < 8; j++) {
+        const peca = tabuleiro[i][j]
+        const posInicial = [i, j]
+        if ( peca.cor === adv )
+          switch ( peca.tipo ) {
+            case 1:
+              zonaDePerigo.push(...diagonaisPeao(posInicial, tabuleiro))
+              break
+            case 2:
+              zonaDePerigo.push(...movimentosTorre(posInicial, tabuleiro))
+              break
+            case 3:
+              zonaDePerigo.push(...movimentosCavalo(posInicial, tabuleiro))
+              break
+            case 4:
+              zonaDePerigo.push(...movimentosBispo(posInicial, tabuleiro))
+              break
+            case 5:
+              zonaDePerigo.push(...movimentosRainha(posInicial, tabuleiro))
+              break
+            case 6:
+              zonaDePerigo.push(...movimentosRei(posInicial, tabuleiro))
+              break
+          }
+      }
+    return zonaDePerigo
   }
 
 
@@ -237,7 +270,7 @@ export {
   movimentosRei,
   movimentosBispo,
   movimentosTorre,
-  diagonaisPeao
+  zonaDePerigo,
 }
 
 

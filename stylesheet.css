@@ -23,17 +23,33 @@
 }
 
 .preta {
-    background-color: #855E42;
+    background-color: #855e42ea;
     width: 92px;
     height: 92px;
 }
 
-.movimento {
-    background-color: #0dbe03b4;
+.movimentoBranca {
+    background-color: #51c1198a;
 }
+
+.movimentoPreta {
+    background-color: #337b0fa7;
+}
+
 
 .img {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.promocao {
+    position: absolute;
+    top: 150px;
+    left: 150px;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    height: fit-content;
+    border: 2px solid black;
 }

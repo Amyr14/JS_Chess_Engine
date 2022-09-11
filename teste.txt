@@ -1,0 +1,5 @@
+
+A vantagem do roque está no fato de ser um movimento bem específico
+Eu posso fazer um vetor com as posições finais do rei e da torre
+Fazer uma função específica para o roque que verifica a possibilidade do movimento
+O rei não pode passar por nenhuma casa ameaçada!
