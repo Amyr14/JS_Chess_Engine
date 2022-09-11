@@ -9,36 +9,12 @@ import {
   zonaDePerigo,
 } from "./funcoes.js"
 
-class Peca {
-  constructor(tipo, cor) {
-    this.tipo = tipo
-    // this.x = x
-    // this.y = y
-    this.cor = cor
-  }
-  seMexeu = false
-}
+import { matriz, Peca } from "./matriz.js"
 
-const matriz = []
-for (let i = 0; i < 8; i++) {
-  const linha = []
-  let cor = 0
-  if (i < 2) cor = 1
-  else if (i > 5) cor = 2
-  for (let j = 0; j < 8; j++) {
-    let peca = {}
-    if (i > 1 && i < 6) peca = new Peca(0, 0)
-    else if (i === 1 || i === 6) peca = new Peca(1, cor)
-    else if (j < 5) peca = new Peca(j + 2, cor)
-    else if (j >= 5) peca = new Peca(9 - j, cor)
-    linha.push(peca)
-  }
-  matriz.push(linha)
-}
 
 const Tabuleiro = {
-  posReiBranco: [0, 4],
-  posReiPreto: [7, 4],
+  posReiBranco: [0, 3],
+  posReiPreto: [7, 3],
   posPromo: [],
   brancoEmCheque: false,
   pretoEmCheque: false,
