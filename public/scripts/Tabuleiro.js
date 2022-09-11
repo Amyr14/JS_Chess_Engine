@@ -53,16 +53,6 @@ const Tabuleiro = {
     const alvo = this.matriz[xFinal][yFinal]
     const reiBranco = peca.tipo === 6 && peca.cor === 1
     const reiPreto = peca.tipo === 6 && peca.cor === 2
-    if ( reiBranco && !peca.seMexeu && posFinal[0] === 0 && posFinal[1] === 6 ) {
-      const alvoTorre = this.matriz[xFinal][yFinal - 1]
-      const torre = this.matriz[xFinal][yFinal + 1]
-      alvoTorre.tipo = torre.tipo
-      alvoTorre.cor = torre.cor
-      alvoTorre.seMexeu = true
-      torre.tipo = 0
-      torre.cor = 0
-      torre.seMexeu = false
-    }
     if (reiBranco) this.posReiBranco = posFinal
     else if (reiPreto) this.posReiPreto = posFinal
     alvo.tipo = peca.tipo
@@ -205,35 +195,6 @@ const Tabuleiro = {
     const y = this.posPromo[1]
     this.matriz[x][y].tipo = tipo
     this.posPromo = []
-  },
-
-  verifRoque(cor, tipoRoque) {
-    let posFinal, posRei, torre, passagemRei, passagemTorre, rei
-    if (cor === 1) posRei = this.posReiBranco
-    else posRei = this.posReiPreto
-    rei = this.matriz[posRei[0]][posRei[1]]
-    if (tipoRoque === "menor") {
-      torre = this.matriz[posRei[0]][posRei[1] + 3]
-      posFinal = [posRei[0], posRei[1] + 2]
-      passagemRei = [posRei[0], posRei[1] + 1]
-      passagemTorre = [posRei[0], posRei[1] + 1]
-    } else if (tipoRoque === "maior") {
-      torre = this.matriz[posRei[0]][posRei[1] - 4]
-      posFinal = [posRei[0], posRei[1] - 2]
-      passagemRei = [posRei[0], posRei[1] - 1]
-      passagemTorre = [posRei[0], posRei[1] - 3]
-    }
-    const perigo = zonaDePerigo(cor)
-    const movImpossivel =
-      isArrayInArray(perigo, posRei) ||
-      isArrayInArray(perigo, passagemRei) ||
-      isArrayInArray(perigo, posFinal) ||
-      this.matriz[posFinal[0]][posFinal[1]].tipo != 0 ||
-      this.matriz[passagemRei[0]][passagemRei[1]].tipo != 0 ||
-      this.matriz[passagemTorre[0]][passagemTorre[1]].tipo != 0
-
-    if (rei.seMexeu || torre.seMexeu || movImpossivel ) return []
-    return posFinal
   },
 }
 export default Tabuleiro
