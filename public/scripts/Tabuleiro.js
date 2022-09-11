@@ -100,10 +100,6 @@ const Tabuleiro = {
         break
       case 6:
         movimentos.push(...movimentosRei(posicao, this.matriz))
-        const roqueMenor = this.verifRoque(peca.cor, "menor")
-        const roqueMaior = this.verifRoque(pecar.cor, "maior")
-        if ( roqueMenor.length > 0 ) movimentos.push(roqueMenor)
-        if ( roqueMaior.length > 0 ) movimentos.push(roqueMaior) 
         ehRei = true
         break
     }
