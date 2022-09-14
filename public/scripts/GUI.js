@@ -115,7 +115,8 @@ function cliquePromo() {
   )
   celulaPromo.removeChild(celulaPromo.firstChild)
   imgPromo.className = "img"
-  switch (img.src[29]) {
+  console.log(img.src)
+  switch (img.src[36]) {
     case "P":
       Tabuleiro.promover(1)
       imgPromo.src = imagens[0]
